@@ -89,3 +89,26 @@ app.delete("/pets/:id", (req, res) => {
     res.send("Animal deletado com sucesso!");
   });
 });
+
+app.post("/medical-history", (req, res) => {
+  const { pet_id, appointment_date, appointment_time, reason, notes } =
+    req.body;
+
+  if (!pet_id || !appointment_date || !appointment_time || !reason) {
+    return res
+      .status(400)
+      .send("Todos os campos obrigatórios devem ser preenchidos.");
+  }
+
+  const query =
+    "INSERT INTO medical_history (pet_id, appointment_date, appointment_time, reason, notes) VALUES (?, ?, ?, ?, ?)";
+  const values = [pet_id, appointment_date, appointment_time, reason, notes];
+
+  db.query(query, values, (err, result) => {
+    if (err) {
+      console.error("Erro ao inserir consulta médica:", err);
+      return res.status(500).send("Erro ao inserir consulta médica.");
+    }
+    res.status(201).send("Consulta médica criada com sucesso.");
+  });
+});
