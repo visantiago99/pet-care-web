@@ -24,7 +24,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className="">
         {pets.map((pet, index) => (
           <div key={index}>
             <p>{pet.name}</p>
@@ -32,7 +32,7 @@ function App() {
             <p>{pet.breed}</p>
             <p>{pet.age}</p>
             <p>{pet.medical_history}</p>
-            <img src={`../../pet-care-node/uploads/${pet.photo}`} />
+            <img src={pet.photo} />
           </div>
         ))}
       </div>
