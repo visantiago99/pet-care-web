@@ -24,9 +24,9 @@ function App() {
 
   return (
     <>
-      <div className="">
+      <div className="flex flex-1 h-full gap-4">
         {pets.map((pet, index) => (
-          <div key={index}>
+          <div className="border-red-500 border max-w-60" key={index}>
             <p>{pet.name}</p>
             <p>{pet.species}</p>
             <p>{pet.breed}</p>
