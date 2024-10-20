@@ -41,7 +41,76 @@ export default function PetForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* Form fields here */}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nome</FormLabel>
+              <FormControl>
+                <Input placeholder="Nome do pet" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="age"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Idade</FormLabel>
+              <FormControl>
+                <Input placeholder="Idade do pet" type="number" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="breed"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Raça</FormLabel>
+              <FormControl>
+                <Input placeholder="Raça do pet" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="species"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Espécie</FormLabel>
+              <FormControl>
+                <Input placeholder="Espécie do pet" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="photo"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>URL da Foto</FormLabel>
+              <FormControl>
+                <Input placeholder="URL da foto do pet" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <Button type="submit">Registrar Pet</Button>
       </form>
     </Form>

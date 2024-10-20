@@ -6,7 +6,10 @@ exports.createPet = (req, res) => {
 
   Pet.create(data, (err, result) => {
     if (err) return res.status(500).send(err);
-    res.status(201).send("Pet registered!");
+    res.status(201).send({
+      message: "Pet registered!",
+      result,
+    });
   });
 };
 
@@ -52,6 +55,9 @@ exports.deletePetById = (req, res) => {
     if (err) return res.status(500).send(err);
     if (result.affectedRows === 0)
       return res.status(404).send("Animal não encontrado.");
-    res.send("Animal deletado com sucesso!");
+    res.status(200).send({
+      message: "Animal deletado com sucesso!",
+      result,
+    });
   });
 };

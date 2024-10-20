@@ -16,3 +16,9 @@ export const registerPet = (newPet: PetFormData) => {
     body: searchParams,
   }).then((res) => res.json());
 };
+
+export const deletePet = (petId: string) => {
+  return fetch(`http://localhost:3001/pets/${petId}`, {
+    method: "DELETE",
+  }).then((res) => res.json());
+};
