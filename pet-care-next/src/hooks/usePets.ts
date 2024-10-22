@@ -3,6 +3,9 @@ import { PetFormData } from "@/schemas/pet";
 export const fetchPets = () =>
   fetch("http://localhost:3001/pets").then((res) => res.json());
 
+export const fetchPetById = (id: string) =>
+  fetch(`http://localhost:3001/pets/${id}`).then((res) => res.json());
+
 export const registerPet = (newPet: PetFormData) => {
   const searchParams = new URLSearchParams();
   Object.entries(newPet).forEach((entry) => {

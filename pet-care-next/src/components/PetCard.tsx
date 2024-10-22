@@ -3,7 +3,8 @@ import { PetData } from "@/schemas/pet";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePet } from "@/hooks/usePets";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react"; // Use ícones de sua escolha
+import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface PetCardProps {
   pet: PetData;
@@ -11,6 +12,7 @@ interface PetCardProps {
 
 export default function PetCard({ pet }: PetCardProps) {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: () => deletePet(pet.id),
@@ -25,8 +27,15 @@ export default function PetCard({ pet }: PetCardProps) {
     }
   };
 
+  const handleCardClick = () => {
+    router.push(`/pets/${pet.id}`);
+  };
+
   return (
-    <Card className="relative">
+    <Card
+      className="relative hover:cursor-pointer hover:shadow-lg"
+      onClick={handleCardClick}
+    >
       <CardHeader>
         <CardTitle>{pet.name}</CardTitle>
         <Button

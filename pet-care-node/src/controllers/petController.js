@@ -24,7 +24,10 @@ exports.getPetById = (req, res) => {
   const { id } = req.params;
   Pet.findById(id, (err, result) => {
     if (err) return res.status(500).send(err);
-    res.json(result);
+    res.status(200).json({
+      message: "Pet found",
+      result: result[0],
+    });
   });
 };
 

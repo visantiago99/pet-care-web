@@ -7,7 +7,7 @@ export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <header className="bg-white shadow-md py-4 px-8">
+    <header className="bg-white shadow-md py-4 px-8 sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between">
         <div className="text-2xl font-bold">
           <a href="/">Meu Site</a>
