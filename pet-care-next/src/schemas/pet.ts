@@ -10,11 +10,13 @@ export const petSchema = z.object({
     .string()
     .min(2, { message: "Espécie deve ter pelo menos 2 caracteres" }),
   photo: z.string().url({ message: "URL da foto inválida" }),
+  description: z.string(),
+  city: z.string(),
+  state: z.string(),
 });
 
 export type PetFormData = z.infer<typeof petSchema>;
 
 export interface PetData extends PetFormData {
   id: string;
-  medical_history: string;
 }

@@ -6,7 +6,7 @@ interface PetDetailsProps {
 }
 
 const PetDetails = ({ pet }: PetDetailsProps) => {
-  const { id, age, breed, medical_history, name, photo, species } = pet;
+  const { id, age, breed, description, name, photo, species } = pet;
   return (
     <div>
       <div className="p-10 flex gap-4 justify-around">
@@ -20,7 +20,7 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
           <p>Espécie: {species}</p>
           <p>Raça: {breed}</p>
           <p>Idade: {age}</p>
-          <p>Histórico Médico: {medical_history}</p>
+          <p>Descrição: {description}</p>
         </div>
       </div>
     </div>

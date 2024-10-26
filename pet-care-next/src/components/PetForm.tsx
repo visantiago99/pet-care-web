@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { PetFormData, petSchema } from "@/schemas/pet";
 import { registerPet } from "@/hooks/usePets";
+import RichTextEditor from "@/lib/tiptap/RichTextEditor";
 
 export default function PetForm() {
   const queryClient = useQueryClient();
@@ -24,6 +25,9 @@ export default function PetForm() {
       breed: "",
       species: "",
       photo: "",
+      description: "",
+      city: "",
+      state: "",
     },
   });
 
@@ -35,6 +39,8 @@ export default function PetForm() {
   });
 
   const onSubmit = (data: PetFormData) => {
+    console.log(data);
+
     mutation.mutate(data);
   };
 
@@ -99,12 +105,57 @@ export default function PetForm() {
 
         <FormField
           control={form.control}
+          name="city"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cidade</FormLabel>
+              <FormControl>
+                <Input placeholder="Cidade" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="state"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Estado</FormLabel>
+              <FormControl>
+                <Input placeholder="Estado" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="photo"
           render={({ field }) => (
             <FormItem>
               <FormLabel>URL da Foto</FormLabel>
               <FormControl>
                 <Input placeholder="URL da foto do pet" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Descrição</FormLabel>
+              <FormControl>
+                <RichTextEditor
+                  content={field.value}
+                  onChange={field.onChange}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -5,6 +5,7 @@ import { deletePet } from "@/hooks/usePets";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { MouseEvent } from "../types/types";
 
 interface PetCardProps {
   pet: PetData;
@@ -21,7 +22,8 @@ export default function PetCard({ pet }: PetCardProps) {
     },
   });
 
-  const handleDelete = () => {
+  const handleDelete = (event: MouseEvent) => {
+    event.stopPropagation();
     if (confirm(`Tem certeza que deseja excluir ${pet.name}?`)) {
       mutation.mutate();
     }
@@ -41,7 +43,7 @@ export default function PetCard({ pet }: PetCardProps) {
         <Button
           variant="ghost"
           size="icon"
-          onClick={handleDelete}
+          onClick={(event) => handleDelete(event)}
           className="absolute top-2 right-2"
         >
           <X className="w-4 h-4" />
@@ -57,9 +59,7 @@ export default function PetCard({ pet }: PetCardProps) {
         <p>
           <strong>Idade:</strong> {pet.age}
         </p>
-        <p>
-          <strong>Histórico Médico:</strong> {pet.medical_history}
-        </p>
+        <p>{/* <strong>Cidade:</strong> {pet.city} */}</p>
         <img
           src={pet.photo}
           alt={pet.name}
