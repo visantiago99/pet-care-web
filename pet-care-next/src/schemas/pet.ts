@@ -13,6 +13,9 @@ export const petSchema = z.object({
   description: z.string(),
   city: z.string(),
   state: z.string(),
+  phone: z
+    .string()
+    .min(10, { message: "Insira um telefone válido para contato" }),
 });
 
 export type PetFormData = z.infer<typeof petSchema>;

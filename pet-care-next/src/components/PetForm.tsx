@@ -22,9 +22,13 @@ import {
   SelectValue,
 } from "./ui/select";
 import { BrazillianStates } from "@/types/states";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
-export default function PetForm() {
+export default function PetForm({
+  setModalOpen,
+}: {
+  setModalOpen: Dispatch<SetStateAction<boolean>>;
+}) {
   const queryClient = useQueryClient();
   const form = useForm({
     resolver: zodResolver(petSchema),
@@ -37,6 +41,7 @@ export default function PetForm() {
       description: "",
       city: "",
       state: "",
+      phone: "",
     },
   });
 
@@ -58,9 +63,12 @@ export default function PetForm() {
         description: "",
         city: "",
         state: "",
+        phone: "",
       });
 
       form.setValue("description", "");
+
+      setModalOpen(false);
     }
   }, [mutation.isSuccess, form]);
 
@@ -174,6 +182,20 @@ export default function PetForm() {
             )}
           />
         </div>
+
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Telefone para Contato com DDD</FormLabel>
+              <FormControl>
+                <Input type="tel" placeholder="Telefone" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}

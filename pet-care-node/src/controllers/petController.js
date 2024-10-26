@@ -1,9 +1,19 @@
 const Pet = require("../models/petModel");
 
 exports.createPet = (req, res) => {
-  const { name, species, breed, age, description, photo, city, state } =
+  const { name, species, breed, age, description, photo, city, state, phone } =
     req.body;
-  const data = [name, species, breed, age, description, photo, city, state];
+  const data = [
+    name,
+    species,
+    breed,
+    age,
+    description,
+    photo,
+    city,
+    state,
+    phone,
+  ];
 
   Pet.create(data, (err, result) => {
     if (err) return res.status(500).send(err);
