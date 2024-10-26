@@ -59,11 +59,16 @@ export default function PetCard({ pet }: PetCardProps) {
         <p>
           <strong>Idade:</strong> {pet.age}
         </p>
-        <p>{/* <strong>Cidade:</strong> {pet.city} */}</p>
+        <p>
+          <strong>Cidade:</strong> {pet.city}
+        </p>
+        <p>
+          <strong>Estado:</strong> {pet.state}
+        </p>
         <img
           src={pet.photo}
           alt={pet.name}
-          className="mt-2 w-full h-40 object-cover rounded"
+          className="mt-2 w-full h-52 object-cover rounded"
         />
       </CardContent>
     </Card>

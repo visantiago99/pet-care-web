@@ -14,6 +14,14 @@ import { Input } from "@/components/ui/input";
 import { PetFormData, petSchema } from "@/schemas/pet";
 import { registerPet } from "@/hooks/usePets";
 import RichTextEditor from "@/lib/tiptap/RichTextEditor";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { BrazillianStates } from "@/types/states";
 
 export default function PetForm() {
   const queryClient = useQueryClient();
@@ -123,9 +131,20 @@ export default function PetForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Estado</FormLabel>
-              <FormControl>
-                <Input placeholder="Estado" {...field} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione um estado" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.entries(BrazillianStates).map(([key, value]) => (
+                    <SelectItem key={key} value={key}>
+                      {value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
