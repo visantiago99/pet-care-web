@@ -5,8 +5,6 @@ import {
   Bold,
   Strikethrough,
   Italic,
-  List,
-  ListOrdered,
   Heading1,
   Heading2,
   Heading3,
@@ -71,20 +69,6 @@ const Toolbar = ({ editor }: Props) => {
         onPressedChange={() => editor.chain().focus().toggleStrike().run()}
       >
         <Strikethrough className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        size={"sm"}
-        pressed={editor.isActive("bulletList")}
-        onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
-      >
-        <List className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        size={"sm"}
-        pressed={editor.isActive("orderedList")}
-        onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
-      >
-        <ListOrdered className="h-4 w-4" />
       </Toggle>
     </div>
   );

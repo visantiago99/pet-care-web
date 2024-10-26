@@ -19,8 +19,7 @@ export default function RichTextEditor({
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class:
-          "rounded-mb border border-red-500 min-h-80 border-input bg-black",
+        class: "rounded-mb border border-input bg-black",
       },
     },
     onUpdate({ editor }) {
