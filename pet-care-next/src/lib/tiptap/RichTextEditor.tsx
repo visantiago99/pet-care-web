@@ -4,6 +4,7 @@ import "./styles.css";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./Toolbar";
+import Heading from "@tiptap/extension-heading";
 
 export default function RichTextEditor({
   content,
@@ -13,7 +14,7 @@ export default function RichTextEditor({
   onChange: (richText: string) => void;
 }) {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, Heading],
     content: content,
     immediatelyRender: false,
     editorProps: {
