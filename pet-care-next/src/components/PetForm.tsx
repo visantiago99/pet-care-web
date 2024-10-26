@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { BrazillianStates } from "@/types/states";
+import { useEffect } from "react";
 
 export default function PetForm() {
   const queryClient = useQueryClient();
@@ -46,9 +47,24 @@ export default function PetForm() {
     },
   });
 
-  const onSubmit = (data: PetFormData) => {
-    console.log(data);
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      form.reset({
+        name: "",
+        age: "",
+        breed: "",
+        species: "",
+        photo: "",
+        description: "",
+        city: "",
+        state: "",
+      });
 
+      form.setValue("description", "");
+    }
+  }, [mutation.isSuccess, form]);
+
+  const onSubmit = (data: PetFormData) => {
     mutation.mutate(data);
   };
 
@@ -173,7 +189,10 @@ export default function PetForm() {
               <FormControl>
                 <RichTextEditor
                   content={field.value}
-                  onChange={field.onChange}
+                  onChange={(content) => {
+                    field.onChange(content);
+                  }}
+                  key={mutation.isSuccess ? Date.now().toString() : "editor"}
                 />
               </FormControl>
               <FormMessage />
