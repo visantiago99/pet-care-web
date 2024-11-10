@@ -3,6 +3,7 @@ import RichTextEditor from "@/lib/tiptap/RichTextEditor";
 import { PetData, PetPost } from "@/schemas/pet";
 import { BrazillianStates } from "@/types/states";
 import React, { useEffect, useState } from "react";
+import PetPostFormModal from "./PetPostFormModal";
 
 interface PetDetailsProps {
   pet: PetData;
@@ -70,9 +71,12 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
           />
         </div>
       </div>
-      <div>
+      <div className="w-full">
+        <div className="flex justify-center">
+          <PetPostFormModal />
+        </div>
         <h1>Atualizações:</h1>
-        {Array.isArray(petPosts) && petPosts.length > 0 ? (
+        {petPosts.length ? (
           petPosts.map((post, index) => (
             <div key={index}>
               <p>{post.content}</p>
