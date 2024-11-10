@@ -112,12 +112,12 @@ export default function PetForm({
         <div className="flex justify-between w-full gap-2">
           <FormField
             control={form.control}
-            name="breed"
+            name="species"
             render={({ field }) => (
               <FormItem className="w-1/2">
-                <FormLabel>Raça</FormLabel>
+                <FormLabel>Espécie</FormLabel>
                 <FormControl>
-                  <Input placeholder="Raça do pet" {...field} />
+                  <Input placeholder="Espécie do pet" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -126,12 +126,12 @@ export default function PetForm({
 
           <FormField
             control={form.control}
-            name="species"
+            name="breed"
             render={({ field }) => (
               <FormItem className="w-1/2">
-                <FormLabel>Espécie</FormLabel>
+                <FormLabel>Raça</FormLabel>
                 <FormControl>
-                  <Input placeholder="Espécie do pet" {...field} />
+                  <Input placeholder="Raça do pet" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -8,14 +8,17 @@ import Toolbar from "./Toolbar";
 export default function RichTextEditor({
   content,
   onChange,
+  isReadOnly,
 }: {
   content: string;
   onChange: (richText: string) => void;
+  isReadOnly?: boolean;
 }) {
   const editor = useEditor({
     extensions: [StarterKit],
     content: content,
     immediatelyRender: false,
+    editable: !isReadOnly,
     editorProps: {
       attributes: {
         class: "rounded-mb border border-input bg-black",
@@ -28,7 +31,7 @@ export default function RichTextEditor({
 
   return (
     <div className="flex flex-col justify-stretch gap-2">
-      <Toolbar editor={editor} />
+      {!isReadOnly && <Toolbar editor={editor} />}
       <EditorContent editor={editor} />
     </div>
   );
