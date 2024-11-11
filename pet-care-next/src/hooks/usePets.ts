@@ -1,12 +1,16 @@
 import { PetFormData } from "@/schemas/pet";
 
-export const fetchPets = () =>
-  fetch("http://localhost:3001/pets").then((res) => res.json());
+export const fetchPets = async () => {
+  const res = await fetch("http://localhost:3001/pets");
+  return res.json();
+};
 
-export const fetchPetById = (id: string) =>
-  fetch(`http://localhost:3001/pets/${id}`).then((res) => res.json());
+export const fetchPetById = async (id: string) => {
+  const res = await fetch(`http://localhost:3001/pets/${id}`);
+  return res.json();
+};
 
-export const registerPet = (newPet: PetFormData) => {
+export const registerPet = async (newPet: PetFormData) => {
   const searchParams = new URLSearchParams();
   Object.entries(newPet).forEach((entry) => {
     if (entry[1]) {
@@ -14,14 +18,18 @@ export const registerPet = (newPet: PetFormData) => {
     }
   });
 
-  return fetch("http://localhost:3001/pets", {
+  const res = await fetch("http://localhost:3001/pets", {
     method: "POST",
     body: searchParams,
-  }).then((res) => res.json());
+  });
+
+  return res.json();
 };
 
-export const deletePet = (petId: string) => {
-  return fetch(`http://localhost:3001/pets/${petId}`, {
+export const deletePet = async (petId: string) => {
+  const res = await fetch(`http://localhost:3001/pets/${petId}`, {
     method: "DELETE",
-  }).then((res) => res.json());
+  });
+
+  return res.json();
 };

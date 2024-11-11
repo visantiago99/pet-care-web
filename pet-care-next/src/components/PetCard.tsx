@@ -3,7 +3,7 @@ import { PetData } from "@/schemas/pet";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePet } from "@/hooks/usePets";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { X, Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MouseEvent } from "../types/types";
 
@@ -15,7 +15,7 @@ export default function PetCard({ pet }: PetCardProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const mutation = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: () => deletePet(pet.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["pets"] });
@@ -25,8 +25,13 @@ export default function PetCard({ pet }: PetCardProps) {
   const handleDelete = (event: MouseEvent) => {
     event.stopPropagation();
     if (confirm(`Tem certeza que deseja excluir ${pet.name}?`)) {
-      mutation.mutate();
+      deleteMutation.mutate();
     }
+  };
+
+  const handleEdit = (event: MouseEvent) => {
+    event.stopPropagation();
+    // edit pet
   };
 
   const handleCardClick = () => {
@@ -40,6 +45,14 @@ export default function PetCard({ pet }: PetCardProps) {
     >
       <CardHeader>
         <CardTitle>{pet.name}</CardTitle>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={(event) => handleEdit(event)}
+          className="absolute top-2 right-10"
+        >
+          <Edit className="w-4 h-4" />
+        </Button>
         <Button
           variant="ghost"
           size="icon"

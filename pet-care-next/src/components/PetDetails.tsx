@@ -1,8 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import { fetchPetPostsById } from "@/hooks/usePetsPosts";
 import RichTextEditor from "@/lib/tiptap/RichTextEditor";
 import { PetData, PetPost } from "@/schemas/pet";
 import { BrazillianStates } from "@/types/states";
-import React, { useEffect, useState } from "react";
 import PetPostFormModal from "./PetPostFormModal";
 
 interface PetDetailsProps {
@@ -10,7 +10,6 @@ interface PetDetailsProps {
 }
 
 const PetDetails = ({ pet }: PetDetailsProps) => {
-  const [petPosts, setPetPosts] = useState<PetPost[]>([]);
   const {
     age,
     breed,
@@ -24,21 +23,10 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
     id,
   } = pet;
 
-  const handleFetchPosts = async (id: string) => {
-    try {
-      const posts = await fetchPetPostsById(id);
-
-      if (posts) {
-        setPetPosts(posts);
-      }
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-    }
-  };
-
-  useEffect(() => {
-    handleFetchPosts(id);
-  }, [id]);
+  const { data: petPosts = [] } = useQuery<PetPost[]>({
+    queryKey: ["petPosts", id],
+    queryFn: () => fetchPetPostsById(id),
+  });
 
   return (
     <div className="flex flex-col w-full p-10 gap-4">
