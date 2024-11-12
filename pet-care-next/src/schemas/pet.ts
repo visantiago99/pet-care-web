@@ -2,7 +2,7 @@ import * as z from "zod";
 
 export const petSchema = z.object({
   name: z.string().min(2, { message: "Nome deve ter pelo menos 2 caracteres" }),
-  age: z.string().min(1, { message: "Idade é obrigatória" }),
+  age: z.number().min(1, { message: "Idade é obrigatória" }),
   breed: z
     .string()
     .min(2, { message: "Raça deve ter pelo menos 2 caracteres" }),

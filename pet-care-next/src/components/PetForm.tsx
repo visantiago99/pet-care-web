@@ -38,7 +38,7 @@ export default function PetForm({
     resolver: zodResolver(petSchema),
     defaultValues: {
       name: "",
-      age: "",
+      age: 0,
       breed: "",
       species: "",
       photo: "",
@@ -91,7 +91,7 @@ export default function PetForm({
     if (registerMutation.isSuccess || updateMutation.isSuccess) {
       form.reset({
         name: "",
-        age: "",
+        age: 0,
         breed: "",
         species: "",
         photo: "",
