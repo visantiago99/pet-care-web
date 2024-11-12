@@ -42,3 +42,11 @@ export const registerPetPost = async (
 
   return res.json();
 };
+
+export const deletePetPost = async (postId: string) => {
+  const res = await fetch(`http://localhost:3001/posts/${postId}`, {
+    method: "DELETE",
+  });
+
+  return res.json();
+};

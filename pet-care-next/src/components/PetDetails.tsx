@@ -1,16 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchPetPostsById } from "@/hooks/usePetsPosts";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deletePetPost, fetchPetPostsById } from "@/hooks/usePetsPosts";
 import RichTextEditor from "@/lib/tiptap/RichTextEditor";
 import { PetData, PetPost } from "@/schemas/pet";
 import { BrazillianStates } from "@/types/states";
 import PetPostFormModal from "./PetPostFormModal";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { X } from "lucide-react";
 
 interface PetDetailsProps {
   pet: PetData;
 }
 
 const PetDetails = ({ pet }: PetDetailsProps) => {
+  const queryClient = useQueryClient();
+
   const {
     age,
     breed,
@@ -28,6 +32,19 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
     queryKey: ["petPosts", id],
     queryFn: () => fetchPetPostsById(id),
   });
+
+  const deleteMutation = useMutation({
+    mutationFn: (postId: string) => deletePetPost(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["petPosts", id] });
+    },
+  });
+
+  const handleDelete = (postId: string) => {
+    if (confirm(`Tem certeza que deseja excluir esse post?`)) {
+      deleteMutation.mutate(postId);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full p-10 gap-4">
@@ -63,13 +80,21 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
         <div className="flex justify-center">
           <PetPostFormModal petId={id} />
         </div>
-        <h1>Atualizações:</h1>
+        <h1 className="text-xl">Atualizações:</h1>
         <div className="flex flex-col gap-8">
           {petPosts.length ? (
             petPosts.map((post, index) => (
-              <Card key={index} className="rounded-md overflow-hidden">
+              <Card key={index} className="rounded-md overflow-hidden relative">
                 <CardHeader>
                   <CardTitle>Atualização: {post.post_date}</CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleDelete(post.post_id.toString())}
+                    className="absolute top-2 right-2"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
                 </CardHeader>
                 <CardContent>
                   <div className="my-4">
