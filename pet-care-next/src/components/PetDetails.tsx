@@ -35,7 +35,7 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
           <img
             src={photo}
             alt={name}
-            className="rounded-md w-full object-cover"
+            className="rounded-md h-[28rem] w-full object-cover"
           />
         </div>
         <div className="lg:w-[50%]">
@@ -48,7 +48,7 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
             Estado: {BrazillianStates[state as keyof typeof BrazillianStates]}
           </p>
           <p>Contato: {phone}</p>
-          <p>Descrição:</p>
+          <p className="mt-2">Descrição:</p>
           <RichTextEditor
             content={description}
             isReadOnly
@@ -63,16 +63,22 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
           <PetPostFormModal />
         </div>
         <h1>Atualizações:</h1>
-        {petPosts.length ? (
-          petPosts.map((post, index) => (
-            <div key={index}>
-              <p>{post.content}</p>
-              <img src={post.photo} alt={post.content} />
-            </div>
-          ))
-        ) : (
-          <p>Não há atualizações disponíveis.</p>
-        )}
+        <div className="flex flex-col gap-8">
+          {petPosts.length ? (
+            petPosts.map((post, index) => (
+              <div key={index}>
+                <p>{post.content}</p>
+                <img
+                  className="rounded-md max-h-[35rem] w-full object-cover"
+                  src={post.photo}
+                  alt={post.content}
+                />
+              </div>
+            ))
+          ) : (
+            <p>Não há atualizações disponíveis.</p>
+          )}
+        </div>
       </div>
     </div>
   );
