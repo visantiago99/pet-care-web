@@ -4,6 +4,7 @@ import RichTextEditor from "@/lib/tiptap/RichTextEditor";
 import { PetData, PetPost } from "@/schemas/pet";
 import { BrazillianStates } from "@/types/states";
 import PetPostFormModal from "./PetPostFormModal";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 interface PetDetailsProps {
   pet: PetData;
@@ -66,14 +67,27 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
         <div className="flex flex-col gap-8">
           {petPosts.length ? (
             petPosts.map((post, index) => (
-              <div key={index}>
-                <p>{post.content}</p>
-                <img
-                  className="rounded-md max-h-[35rem] w-full object-cover"
-                  src={post.photo}
-                  alt={post.content}
-                />
-              </div>
+              <Card key={index} className="rounded-md overflow-hidden">
+                <CardHeader>
+                  <CardTitle>Atualização: {post.post_date}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="my-4">
+                    <RichTextEditor
+                      content={post.content}
+                      isReadOnly
+                      onChange={() => {
+                        return;
+                      }}
+                    />
+                  </div>
+                  <img
+                    className="rounded-md max-h-[35rem] w-full object-cover"
+                    src={post.photo}
+                    alt={post.content}
+                  />
+                </CardContent>
+              </Card>
             ))
           ) : (
             <p>Não há atualizações disponíveis.</p>
