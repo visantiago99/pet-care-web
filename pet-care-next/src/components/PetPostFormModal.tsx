@@ -8,8 +8,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import PetPostForm from "./PetPostForm";
 
-function PetPostFormModal() {
+function PetPostFormModal({ petId }: { petId: string }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -24,7 +25,9 @@ function PetPostFormModal() {
             Coloque as informações relacionadas ao post que vai ser registrado.
           </DialogDescription>
         </DialogHeader>
-        <div className="mt-4">pet post form</div>
+        <div className="mt-4">
+          <PetPostForm petId={petId} setModalOpen={setModalOpen} />
+        </div>
       </DialogContent>
     </Dialog>
   );

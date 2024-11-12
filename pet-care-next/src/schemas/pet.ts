@@ -21,7 +21,16 @@ export const petSchema = z.object({
     .min(10, { message: "Insira um telefone válido para contato" }),
 });
 
+export const petPostSchema = z.object({
+  content: z.string().min(15, {
+    message: "Escreva uma descrição depelo menos 15 caracteres para o post",
+  }),
+  photo: z.string().url({ message: "URL da foto inválida" }),
+});
+
 export type PetFormData = z.infer<typeof petSchema>;
+
+export type PetPostFormData = z.infer<typeof petPostSchema>;
 
 export interface PetData extends PetFormData {
   id: string;

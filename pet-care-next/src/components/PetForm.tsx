@@ -34,7 +34,9 @@ export default function PetForm({
   petId?: string;
 }) {
   const [richTextEditKey, setRichTextEditKey] = useState("");
+
   const queryClient = useQueryClient();
+
   const form = useForm({
     resolver: zodResolver(petSchema),
     defaultValues: {

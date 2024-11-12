@@ -60,7 +60,7 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
       </div>
       <div className="w-full">
         <div className="flex justify-center">
-          <PetPostFormModal />
+          <PetPostFormModal petId={id} />
         </div>
         <h1>Atualizações:</h1>
         <div className="flex flex-col gap-8">

@@ -1,3 +1,5 @@
+import { PetPostFormData } from "@/schemas/pet";
+
 export const fetchPetPostsById = async (id: string) => {
   try {
     const response = await fetch(`http://localhost:3001/posts/pet/${id}`);
@@ -13,4 +15,30 @@ export const fetchPetPostsById = async (id: string) => {
     console.error("Error fetching pet posts:", error);
     throw error;
   }
+};
+
+export const registerPetPost = async (
+  petId: string,
+  newPost: PetPostFormData
+) => {
+  const filteredPetData = Object.fromEntries(
+    Object.entries(newPost).filter(([, value]) => value != null && value !== "")
+  );
+
+  const res = await fetch("http://localhost:3001/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ...filteredPetData,
+      pet_id: petId,
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to register pet: ${res.statusText}`);
+  }
+
+  return res.json();
 };
