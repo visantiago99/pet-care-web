@@ -55,7 +55,6 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
             onChange={() => {
               return;
             }}
-            key={Date.now().toString()}
           />
         </div>
       </div>

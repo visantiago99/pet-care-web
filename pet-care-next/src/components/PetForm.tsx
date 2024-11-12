@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { BrazillianStates } from "@/types/states";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 export default function PetForm({
   setModalOpen,
@@ -33,6 +33,7 @@ export default function PetForm({
   isEdit: boolean;
   petId?: string;
 }) {
+  const [richTextEditKey, setRichTextEditKey] = useState("");
   const queryClient = useQueryClient();
   const form = useForm({
     resolver: zodResolver(petSchema),
@@ -84,6 +85,8 @@ export default function PetForm({
       form.setValue("city", petData.result.city);
       form.setValue("state", petData.result.state);
       form.setValue("phone", petData.result.phone);
+
+      setRichTextEditKey(petData.result.description);
     }
   }, [isEdit, petData, form]);
 
@@ -264,7 +267,11 @@ export default function PetForm({
                   onChange={(content) => {
                     field.onChange(content);
                   }}
-                  key={Date.now().toString()}
+                  key={
+                    isEdit && petData?.result.description
+                      ? richTextEditKey
+                      : "new"
+                  }
                 />
               </FormControl>
               <FormMessage />

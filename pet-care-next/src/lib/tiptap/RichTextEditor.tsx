@@ -17,7 +17,7 @@ export default function RichTextEditor({
   const editor = useEditor({
     extensions: [StarterKit],
     content: content,
-    immediatelyRender: false,
+    immediatelyRender: true,
     editable: !isReadOnly,
     editorProps: {
       attributes: {
