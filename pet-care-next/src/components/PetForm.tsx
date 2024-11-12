@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,8 +11,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PetFormData, petSchema } from "@/schemas/pet";
-import { registerPet } from "@/hooks/usePets";
+import { PetData, PetFormData, petSchema } from "@/schemas/pet";
+import { fetchPetById, registerPet, updatePet } from "@/hooks/usePets";
 import RichTextEditor from "@/lib/tiptap/RichTextEditor";
 import {
   Select,
@@ -26,8 +26,12 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 
 export default function PetForm({
   setModalOpen,
+  isEdit,
+  petId,
 }: {
   setModalOpen: Dispatch<SetStateAction<boolean>>;
+  isEdit: boolean;
+  petId?: string;
 }) {
   const queryClient = useQueryClient();
   const form = useForm({
@@ -45,15 +49,46 @@ export default function PetForm({
     },
   });
 
-  const mutation = useMutation({
+  const { data: petData } = useQuery<{
+    message: string;
+    result: PetData;
+  }>({
+    queryKey: ["pets", petId],
+    queryFn: () => fetchPetById(petId ?? ""),
+    enabled: !!petId && isEdit,
+  });
+
+  const registerMutation = useMutation({
     mutationFn: registerPet,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["pets"] });
     },
   });
 
+  const updateMutation = useMutation({
+    mutationFn: (data: { petId: string; updatedPet: PetFormData }) =>
+      updatePet(data.petId, data.updatedPet),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pets"] });
+    },
+  });
+
   useEffect(() => {
-    if (mutation.isSuccess) {
+    if (isEdit && petData?.result) {
+      form.setValue("name", petData.result.name);
+      form.setValue("age", petData.result.age);
+      form.setValue("breed", petData.result.breed);
+      form.setValue("species", petData.result.species);
+      form.setValue("photo", petData.result.photo);
+      form.setValue("description", petData.result.description);
+      form.setValue("city", petData.result.city);
+      form.setValue("state", petData.result.state);
+      form.setValue("phone", petData.result.phone);
+    }
+  }, [isEdit, petData, form]);
+
+  useEffect(() => {
+    if (registerMutation.isSuccess || updateMutation.isSuccess) {
       form.reset({
         name: "",
         age: "",
@@ -70,10 +105,19 @@ export default function PetForm({
 
       setModalOpen(false);
     }
-  }, [mutation.isSuccess, form]);
+  }, [
+    registerMutation.isSuccess,
+    updateMutation.isSuccess,
+    form,
+    setModalOpen,
+  ]);
 
   const onSubmit = (data: PetFormData) => {
-    mutation.mutate(data);
+    if (isEdit && petId) {
+      updateMutation.mutate({ petId, updatedPet: data });
+    } else {
+      registerMutation.mutate(data);
+    }
   };
 
   return (
@@ -160,10 +204,7 @@ export default function PetForm({
             render={({ field }) => (
               <FormItem className="w-1/2">
                 <FormLabel>Estado</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione um estado" />
@@ -223,7 +264,7 @@ export default function PetForm({
                   onChange={(content) => {
                     field.onChange(content);
                   }}
-                  key={mutation.isSuccess ? Date.now().toString() : "editor"}
+                  key={Date.now().toString()}
                 />
               </FormControl>
               <FormMessage />
@@ -231,7 +272,9 @@ export default function PetForm({
           )}
         />
 
-        <Button type="submit">Registrar Pet</Button>
+        <Button type="submit">
+          {!isEdit ? "Registrar Pet" : "Atualizar Pet"}
+        </Button>
       </form>
     </Form>
   );

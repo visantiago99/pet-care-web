@@ -3,15 +3,19 @@ import { PetData } from "@/schemas/pet";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePet } from "@/hooks/usePets";
 import { Button } from "@/components/ui/button";
-import { X, Edit } from "lucide-react";
+import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MouseEvent } from "../types/types";
+import PetFormModal from "./PetFormModal";
+import { useState } from "react";
 
-interface PetCardProps {
+export interface PetCardProps {
   pet: PetData;
 }
 
 export default function PetCard({ pet }: PetCardProps) {
+  const [isEditing, setIsEditing] = useState(false);
+
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -29,13 +33,10 @@ export default function PetCard({ pet }: PetCardProps) {
     }
   };
 
-  const handleEdit = (event: MouseEvent) => {
-    event.stopPropagation();
-    // edit pet
-  };
-
   const handleCardClick = () => {
-    router.push(`/pets/${pet.id}`);
+    if (!isEditing) {
+      router.push(`/pets/${pet.id}`);
+    }
   };
 
   return (
@@ -45,14 +46,7 @@ export default function PetCard({ pet }: PetCardProps) {
     >
       <CardHeader>
         <CardTitle>{pet.name}</CardTitle>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={(event) => handleEdit(event)}
-          className="absolute top-2 right-10"
-        >
-          <Edit className="w-4 h-4" />
-        </Button>
+        <PetFormModal isEdit setIsEditing={setIsEditing} petId={pet.id} />
         <Button
           variant="ghost"
           size="icon"

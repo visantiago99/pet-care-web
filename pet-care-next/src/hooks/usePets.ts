@@ -11,17 +11,43 @@ export const fetchPetById = async (id: string) => {
 };
 
 export const registerPet = async (newPet: PetFormData) => {
-  const searchParams = new URLSearchParams();
-  Object.entries(newPet).forEach((entry) => {
-    if (entry[1]) {
-      searchParams.append(...entry);
-    }
-  });
+  const filteredPetData = Object.fromEntries(
+    Object.entries(newPet).filter(([, value]) => value != null && value !== "")
+  );
 
   const res = await fetch("http://localhost:3001/pets", {
     method: "POST",
-    body: searchParams,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(filteredPetData),
   });
+
+  if (!res.ok) {
+    throw new Error(`Failed to register pet: ${res.statusText}`);
+  }
+
+  return res.json();
+};
+
+export const updatePet = async (petId: string, updatedPet: PetFormData) => {
+  const filteredPetData = Object.fromEntries(
+    Object.entries(updatedPet).filter(
+      ([, value]) => value != null && value !== ""
+    )
+  );
+
+  const res = await fetch(`http://localhost:3001/pets/${petId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(filteredPetData),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to update pet: ${res.statusText}`);
+  }
 
   return res.json();
 };
