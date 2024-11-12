@@ -7,6 +7,7 @@ import PetPostFormModal from "./PetPostFormModal";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { X } from "lucide-react";
+import { formatIsoDate } from "@/lib/utils";
 
 interface PetDetailsProps {
   pet: PetData;
@@ -86,7 +87,9 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
             petPosts.map((post, index) => (
               <Card key={index} className="rounded-md overflow-hidden relative">
                 <CardHeader>
-                  <CardTitle>Atualização: {post.post_date}</CardTitle>
+                  <CardTitle>
+                    Atualização: {formatIsoDate(post.post_date)}
+                  </CardTitle>
                   <Button
                     variant="ghost"
                     size="icon"
