@@ -17,10 +17,13 @@ export const registerPet = async (newPet: PetFormData) => {
 
   const res = await fetch("http://localhost:3001/pets", {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(filteredPetData),
+    body: JSON.stringify({
+      ...filteredPetData,
+    }),
   });
 
   if (!res.ok) {

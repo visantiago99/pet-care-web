@@ -33,6 +33,7 @@ export const registerPetPost = async (
     body: JSON.stringify({
       ...filteredPetData,
       pet_id: petId,
+      user_id: 1 // get later from context api logged user
     }),
   });
 

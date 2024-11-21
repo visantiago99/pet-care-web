@@ -2,6 +2,7 @@ const express = require("express");
 // const multer = require("multer");
 const router = express.Router();
 const petController = require("../controllers/petController");
+const { authenticateToken } = require("../middleware/authMiddleware");
 
 // const storage = multer.diskStorage({
 //   destination: (req, file, cb) => cb(null, "uploads/"),
@@ -10,7 +11,7 @@ const petController = require("../controllers/petController");
 
 // const upload = multer({ storage: storage });
 
-router.post("/", /*upload.single("photo"),*/ petController.createPet);
+router.post("/", /*upload.single("photo"),*/ authenticateToken, petController.createPet);
 router.get("/", petController.getAllPets);
 router.get("/:id", petController.getPetById);
 router.patch("/:id", petController.updatePetById);
