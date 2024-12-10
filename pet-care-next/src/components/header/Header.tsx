@@ -2,9 +2,16 @@
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/contexts/userContext";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 export default function Header() {
-  const { user } = useUserContext();
+  const { user, logoutUser } = useUserContext();
+
   return (
     <header className="bg-white shadow-md py-4 px-8 sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between">
@@ -36,9 +43,21 @@ export default function Header() {
                 </Link>
               </>
             ) : (
-              <Link href={"/account"}>
-                <Button>Minha Conta</Button>
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="text-lg font-medium text-gray-700 cursor-pointer">
+                    {user.username}
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem asChild>
+                    <Link href="/account">Minha Conta</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={logoutUser}>
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
           </div>
         </div>

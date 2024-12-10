@@ -25,7 +25,7 @@ interface UserResponse {
   userId: string;
 }
 
-interface StoredUserData {
+export interface StoredUserData {
   username: string;
   email: string;
   userId: string;
