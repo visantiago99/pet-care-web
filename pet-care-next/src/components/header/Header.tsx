@@ -1,8 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { useUserContext } from "@/contexts/userContext";
 import Link from "next/link";
 
 export default function Header() {
+  const { user } = useUserContext();
   return (
     <header className="bg-white shadow-md py-4 px-8 sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between">
@@ -24,12 +26,20 @@ export default function Header() {
 
         <div className="flex items-center space-x-4">
           <div className="flex gap-2">
-            <Link href={"/login"}>
-              <Button>Entrar</Button>
-            </Link>
-            <Link href={"/register"}>
-              <Button>Cadastrar</Button>
-            </Link>
+            {!user ? (
+              <>
+                <Link href={"/login"}>
+                  <Button>Entrar</Button>
+                </Link>
+                <Link href={"/register"}>
+                  <Button>Cadastrar</Button>
+                </Link>
+              </>
+            ) : (
+              <Link href={"/account"}>
+                <Button>Minha Conta</Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
