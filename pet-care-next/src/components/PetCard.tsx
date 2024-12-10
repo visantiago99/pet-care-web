@@ -11,9 +11,10 @@ import { useState } from "react";
 
 export interface PetCardProps {
   pet: PetData;
+  isMyAccount?: boolean;
 }
 
-export default function PetCard({ pet }: PetCardProps) {
+export default function PetCard({ pet, isMyAccount }: PetCardProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   const queryClient = useQueryClient();
@@ -46,15 +47,19 @@ export default function PetCard({ pet }: PetCardProps) {
     >
       <CardHeader>
         <CardTitle>{pet.name}</CardTitle>
-        <PetFormModal isEdit setIsEditing={setIsEditing} petId={pet.id} />
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={(event) => handleDelete(event)}
-          className="absolute top-2 right-2"
-        >
-          <X className="w-4 h-4" />
-        </Button>
+        {isMyAccount && (
+          <>
+            <PetFormModal isEdit setIsEditing={setIsEditing} petId={pet.id} />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={(event) => handleDelete(event)}
+              className="absolute top-2 right-2"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          </>
+        )}
       </CardHeader>
       <CardContent>
         <p>

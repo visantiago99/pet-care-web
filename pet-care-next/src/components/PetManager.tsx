@@ -12,7 +12,7 @@ export default function PetManager({ isMyAccount }: { isMyAccount?: boolean }) {
         </h1>
         {isMyAccount && <PetFormModal />}
       </div>
-      <PetList />
+      <PetList isMyAccount={isMyAccount} />
     </div>
   );
 }
