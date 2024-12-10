@@ -48,11 +48,13 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<StoredUserData | null>(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      const parsedUser = JSON.parse(savedUser);
-      const isExpired = parsedUser.expiry <= Date.now();
-      return isExpired ? null : parsedUser.data;
+    if (typeof window !== "undefined") {
+      const savedUser = localStorage.getItem("user");
+      if (savedUser) {
+        const parsedUser = JSON.parse(savedUser);
+        const isExpired = parsedUser.expiry <= Date.now();
+        return isExpired ? null : parsedUser.data;
+      }
     }
     return null;
   });
