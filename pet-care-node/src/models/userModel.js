@@ -46,6 +46,7 @@ const User = {
           token,
           username: user.username,
           email: user.email,
+          userId: user.user_id,
         });
       });
     });

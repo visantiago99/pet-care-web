@@ -24,6 +24,7 @@ export default function PetCard({ pet, isMyAccount }: PetCardProps) {
     mutationFn: () => deletePet(pet.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["pets"] });
+      queryClient.invalidateQueries({ queryKey: ["petsFromUser"] });
     },
   });
 

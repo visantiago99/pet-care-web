@@ -19,7 +19,7 @@ router.post(
 router.get("/", petController.getAllPets);
 router.get("/:id", petController.getPetById);
 router.get("/user/:user_id", petController.getPetsByUserId);
-router.patch("/:id", authenticateToken, petController.updatePetById);
-router.delete("/:id", authenticateToken, petController.deletePetById);
+router.patch("/:id", petController.updatePetById);
+router.delete("/:id", petController.deletePetById);
 
 module.exports = router;

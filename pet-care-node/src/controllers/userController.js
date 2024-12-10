@@ -51,7 +51,7 @@ exports.loginUser = (req, res) => {
   User.login(email, password, (err, result) => {
     if (err) return res.status(400).json({ message: err.message });
 
-    const { token, username, email: userEmail } = result;
+    const { token, username, email: userEmail, userId } = result;
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -65,6 +65,7 @@ exports.loginUser = (req, res) => {
       username,
       email: userEmail,
       token,
+      userId,
     });
   });
 };

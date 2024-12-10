@@ -22,11 +22,13 @@ interface UserResponse {
   username: string;
   email: string;
   token: string;
+  userId: string;
 }
 
 interface StoredUserData {
   username: string;
   email: string;
+  userId: string;
 }
 
 interface UserContextProps {
@@ -67,6 +69,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       data: {
         username: data.username,
         email: data.email,
+        userId: data.userId,
       },
       expiry,
     };

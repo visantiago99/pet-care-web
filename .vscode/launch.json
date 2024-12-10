@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch server.js",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/pet-care-node/src/server.js",
+      "outFiles": ["${workspaceFolder}/pet-care-node/**/*.js"]
+    }
+  ]
+}

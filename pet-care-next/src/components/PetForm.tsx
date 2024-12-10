@@ -65,6 +65,7 @@ export default function PetForm({
     mutationFn: registerPet,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["pets"] });
+      queryClient.invalidateQueries({ queryKey: ["petsFromUser"] });
     },
   });
 
@@ -73,6 +74,7 @@ export default function PetForm({
       updatePet(data.petId, data.updatedPet),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["pets"] });
+      queryClient.invalidateQueries({ queryKey: ["petsFromUser"] });
     },
   });
 
