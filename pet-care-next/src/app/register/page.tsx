@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import useUser from "@/hooks/useUser";
 import {
   Card,
   CardContent,
@@ -13,9 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
+import { useUserContext } from "@/contexts/userContext";
 
 const RegisterPage = () => {
-  const { registerUser, loading, error } = useUser();
+  const { registerUser, loading, error } = useUserContext();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

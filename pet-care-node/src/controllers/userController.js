@@ -43,7 +43,7 @@ exports.loginUser = (req, res) => {
   User.login(email, password, (err, result) => {
     if (err) return res.status(400).json({ message: err.message });
 
-    const token = result.token;
+    const { token, username, email: userEmail } = result;
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -54,7 +54,9 @@ exports.loginUser = (req, res) => {
 
     res.status(200).json({
       message: "Login realizado com sucesso!",
-      token: result.token,
+      username,
+      email: userEmail,
+      token,
     });
   });
 };

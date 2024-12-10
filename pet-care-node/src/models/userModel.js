@@ -27,12 +27,20 @@ const User = {
         }
 
         const token = jwt.sign(
-          { userId: user.user_id, username: user.username },
+          {
+            userId: user.user_id,
+            username: user.username,
+            email: user.email,
+          },
           process.env.SECRET_KEY,
           { expiresIn: "1h" }
         );
 
-        callback(null, { token });
+        callback(null, {
+          token,
+          username: user.username,
+          email: user.email,
+        });
       });
     });
   },

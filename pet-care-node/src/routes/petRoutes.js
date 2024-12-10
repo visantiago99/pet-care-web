@@ -11,10 +11,14 @@ const { authenticateToken } = require("../middleware/authMiddleware");
 
 // const upload = multer({ storage: storage });
 
-router.post("/", /*upload.single("photo"),*/ authenticateToken, petController.createPet);
+router.post(
+  "/",
+  /*upload.single("photo"),*/ authenticateToken,
+  petController.createPet
+);
 router.get("/", petController.getAllPets);
 router.get("/:id", petController.getPetById);
-router.patch("/:id", petController.updatePetById);
-router.delete("/:id", petController.deletePetById);
+router.patch("/:id", authenticateToken, petController.updatePetById);
+router.delete("/:id", authenticateToken, petController.deletePetById);
 
 module.exports = router;
