@@ -9,13 +9,19 @@ const User = {
     db.query(sql, data, callback);
   },
   findByEmail: (email, callback) => {
-    const sql = "SELECT * FROM users WHERE email = ?";
-    db.query(sql, [email], callback);
+    const query = "SELECT * FROM users WHERE email = ? LIMIT 1";
+    db.query(query, [email], (err, results) => {
+      if (err) {
+        console.error("Erro ao buscar email:", err);
+        return callback(err, null);
+      }
+      callback(null, results.length > 0 ? results[0] : null);
+    });
   },
   login: (email, password, callback) => {
     User.findByEmail(email, (err, results) => {
       if (err) return callback(err);
-      const user = results[0];
+      const user = results;
       if (!user) {
         return callback(new Error("Usuário não encontrado"), null);
       }

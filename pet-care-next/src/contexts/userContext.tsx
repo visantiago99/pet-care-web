@@ -90,11 +90,12 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       });
 
       if (!res.ok) {
-        throw new Error(`Failed to register user: ${res.statusText}`);
+        const errorData = await res.json(); // Processa o corpo da resposta para obter mais informações
+        console.error("Erro ao registrar usuário:", errorData);
+        throw new Error(errorData.message || "Erro desconhecido ao registrar.");
       }
 
       const data: UserResponse = await res.json();
-      saveUser(data);
       return data;
     } catch (err: any) {
       setError(err.message);
