@@ -39,6 +39,22 @@ exports.getAllPets = (req, res) => {
   });
 };
 
+exports.getPetsByUserId = (req, res) => {
+  const { user_id } = req.params;
+
+  if (!user_id) {
+    return res.status(400).send({ message: "User ID is required." });
+  }
+
+  Pet.findAllByUserId(user_id, (err, results) => {
+    if (err) return res.status(500).send(err);
+    if (results.length === 0) {
+      return res.status(404).json({ message: "No pets found for this user." });
+    }
+    res.status(200).json(results);
+  });
+};
+
 exports.getPetById = (req, res) => {
   const { id } = req.params;
   Pet.findById(id, (err, result) => {

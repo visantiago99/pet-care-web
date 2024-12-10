@@ -10,6 +10,10 @@ const Pet = {
     const sql = "SELECT * FROM pets";
     db.query(sql, callback);
   },
+  findAllByUserId: (userId, callback) => {
+    const sql = "SELECT * FROM pets WHERE user_id = ?";
+    db.query(sql, [userId], callback);
+  },
   findById: (id, callback) => {
     const sql = "SELECT * FROM pets WHERE id = ?";
     db.query(sql, [id], callback);

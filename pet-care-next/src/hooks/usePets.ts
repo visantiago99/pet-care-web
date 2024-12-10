@@ -5,6 +5,11 @@ export const fetchPets = async () => {
   return res.json();
 };
 
+export const fetchPetsByUserId = async (userId: string) => {
+  const res = await fetch(`http://localhost:3001/pets/user/${userId}`);
+  return res.json();
+};
+
 export const fetchPetById = async (id: string) => {
   const res = await fetch(`http://localhost:3001/pets/${id}`);
   return res.json();
