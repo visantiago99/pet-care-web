@@ -14,22 +14,23 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
 
-const LoginPage = () => {
-  const { loginUser, loading, error } = useUser();
+const RegisterPage = () => {
+  const { registerUser, loading, error } = useUser();
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const loginData = { email, password };
+    const registerData = { username, email, password };
 
     try {
-      await loginUser(loginData);
-      alert("Login realizado com sucesso!");
-      router.push("/pets");
+      await registerUser(registerData);
+      alert("Registro realizado com sucesso!");
+      router.push("/login");
     } catch (err: any) {
-      alert("Erro ao fazer login: " + err.message);
+      alert("Erro ao registrar usuário: " + err.message);
     }
   };
 
@@ -37,10 +38,21 @@ const LoginPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
+          <CardTitle>Registrar</CardTitle>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="username">Nome de Usuário</Label>
+              <Input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                placeholder="Digite seu nome de usuário"
+              />
+            </div>
             <div>
               <Label htmlFor="email">Email</Label>
               <Input
@@ -66,7 +78,7 @@ const LoginPage = () => {
           </CardContent>
           <CardFooter className="flex flex-col items-center gap-4">
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Carregando..." : "Entrar"}
+              {loading ? "Carregando..." : "Registrar"}
             </Button>
             {error && (
               <Alert variant="destructive">
@@ -81,4 +93,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

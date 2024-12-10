@@ -1,18 +1,8 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { useRouter } from "next/navigation"; // Importe o hook useRouter
+import Link from "next/link";
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const router = useRouter(); // Crie uma instância do useRouter
-
-  // Função para redirecionar para a página de login
-  const handleLoginClick = () => {
-    router.push("/login"); // Redireciona para /login
-  };
-
   return (
     <header className="bg-white shadow-md py-4 px-8 sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between">
@@ -33,17 +23,14 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center space-x-4">
-          {isLoggedIn ? (
-            <Avatar className="cursor-pointer">
-              <AvatarImage src="https://via.placeholder.com/150" alt="Avatar" />
-              <AvatarFallback>AB</AvatarFallback>
-            </Avatar>
-          ) : (
-            <div className="flex gap-2">
-              <Button onClick={handleLoginClick}>Entrar</Button> {/* Redireciona para /login */}
-              <Button onClick={() => setIsLoggedIn(true)}>Cadastrar</Button>
-            </div>
-          )}
+          <div className="flex gap-2">
+            <Link href={"/login"}>
+              <Button>Entrar</Button>
+            </Link>
+            <Link href={"/register"}>
+              <Button>Cadastrar</Button>
+            </Link>
+          </div>
         </div>
       </div>
     </header>

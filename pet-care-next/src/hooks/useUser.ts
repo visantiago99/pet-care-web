@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-// Tipos para os dados do usuário
 interface UserLoginData {
   email: string;
   password: string;
@@ -22,7 +21,6 @@ const useUser = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Função para registrar um novo usuário
   const registerUser = async (userData: UserRegisterData) => {
     setLoading(true);
     setError(null);
@@ -30,7 +28,7 @@ const useUser = () => {
     try {
       const res = await fetch("http://localhost:3001/users/register", {
         method: "POST",
-        credentials: "include", // Inclui os cookies nas requisições
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -43,7 +41,7 @@ const useUser = () => {
 
       const data = await res.json();
       setUser(data);
-      return data; // Você pode retornar a resposta caso precise
+      return data;
     } catch (err: any) {
       setError(err.message);
       throw new Error(err.message);
@@ -52,7 +50,6 @@ const useUser = () => {
     }
   };
 
-  // Função para fazer login do usuário
   const loginUser = async (loginData: UserLoginData) => {
     setLoading(true);
     setError(null);
@@ -60,7 +57,7 @@ const useUser = () => {
     try {
       const res = await fetch("http://localhost:3001/users/login", {
         method: "POST",
-        credentials: "include", // Inclui os cookies nas requisições
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -72,10 +69,7 @@ const useUser = () => {
       }
 
       const data: UserResponse = await res.json();
-      setUser(data); // Define o usuário no estado
-
-      // Aqui você pode guardar o token em algum lugar se necessário
-      // Por exemplo, no contexto ou cookie
+      setUser(data);
 
       return data;
     } catch (err: any) {
@@ -85,7 +79,6 @@ const useUser = () => {
       setLoading(false);
     }
   };
-
 
   return {
     user,
