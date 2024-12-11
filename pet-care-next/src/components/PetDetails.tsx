@@ -1,3 +1,4 @@
+"use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deletePetPost, fetchPetPostsById } from "@/hooks/usePetsPosts";
 import RichTextEditor from "@/lib/tiptap/RichTextEditor";
@@ -8,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { X } from "lucide-react";
 import { formatIsoDate } from "@/lib/utils";
+import { useUserContext } from "@/contexts/userContext";
 
 interface PetDetailsProps {
   pet: PetData;
@@ -15,6 +17,7 @@ interface PetDetailsProps {
 
 const PetDetails = ({ pet }: PetDetailsProps) => {
   const queryClient = useQueryClient();
+  const { user } = useUserContext();
 
   const {
     age,
@@ -27,6 +30,7 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
     state,
     phone,
     id,
+    user_id,
   } = pet;
 
   const { data: petPosts = [] } = useQuery<PetPost[]>({
@@ -46,6 +50,8 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
       deleteMutation.mutate(postId);
     }
   };
+
+  const shouldShowPostBtn = user && user.userId === user_id;
 
   return (
     <div className="flex flex-col w-full p-10 gap-4">
@@ -78,9 +84,11 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
         </div>
       </div>
       <div className="w-full">
-        <div className="flex justify-center">
-          <PetPostFormModal petId={id} />
-        </div>
+        {shouldShowPostBtn && (
+          <div className="flex justify-center">
+            <PetPostFormModal petId={id} />
+          </div>
+        )}
         <h1 className="text-xl">Atualizações:</h1>
         <div className="flex flex-col gap-8">
           {petPosts.length ? (

@@ -10,12 +10,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/contexts/userContext";
 
 const LoginPage = () => {
-  const { loginUser, loading, error } = useUserContext();
+  const { loginUser } = useUserContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -65,15 +64,9 @@ const LoginPage = () => {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col items-center gap-4">
-            <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Carregando..." : "Entrar"}
+            <Button type="submit" className="w-full">
+              Entrar
             </Button>
-            {error && (
-              <Alert variant="destructive">
-                <AlertTitle>Erro</AlertTitle>
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
           </CardFooter>
         </form>
       </Card>

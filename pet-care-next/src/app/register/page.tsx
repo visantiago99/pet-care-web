@@ -10,12 +10,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/contexts/userContext";
 
 const RegisterPage = () => {
-  const { registerUser, loading, error } = useUserContext();
+  const { registerUser } = useUserContext();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -77,15 +76,9 @@ const RegisterPage = () => {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col items-center gap-4">
-            <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Carregando..." : "Registrar"}
+            <Button type="submit" className="w-full">
+              Registrar
             </Button>
-            {error && (
-              <Alert variant="destructive">
-                <AlertTitle>Erro</AlertTitle>
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
           </CardFooter>
         </form>
       </Card>

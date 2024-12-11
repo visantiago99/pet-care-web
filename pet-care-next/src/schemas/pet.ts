@@ -34,6 +34,7 @@ export type PetPostFormData = z.infer<typeof petPostSchema>;
 
 export interface PetData extends PetFormData {
   id: string;
+  user_id: string;
 }
 
 export interface PetPost {
