@@ -28,17 +28,18 @@ interface UserProviderProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [user, setUser] = useState<StoredUserData | null>(() => {
-    if (typeof window !== "undefined") {
-      const savedUser = localStorage.getItem("user");
-      if (savedUser) {
-        const parsedUser = JSON.parse(savedUser);
-        const isExpired = parsedUser.expiry <= Date.now();
-        return isExpired ? null : parsedUser.data;
+  const [user, setUser] = useState<StoredUserData | null>(null);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+      const isExpired = parsedUser.expiry <= Date.now();
+      if (!isExpired) {
+        setUser(parsedUser.data);
       }
     }
-    return null;
-  });
+  }, []);
 
   const saveUser = (data: UserResponse) => {
     const jwtPayload = JSON.parse(atob(data.token.split(".")[1])) as {
