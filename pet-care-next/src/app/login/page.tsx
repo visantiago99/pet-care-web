@@ -23,12 +23,12 @@ const LoginPage = () => {
     e.preventDefault();
     const loginData = { email, password };
 
-    try {
-      await loginUser(loginData);
+    const loginRequest = await loginUser(loginData);
+    if (loginRequest) {
       alert("Login realizado com sucesso!");
       router.push("/pets");
-    } catch (err: any) {
-      alert("Erro ao fazer login: " + err.message);
+    } else {
+      alert("Erro ao fazer login");
     }
   };
 

@@ -24,12 +24,13 @@ const RegisterPage = () => {
     e.preventDefault();
     const registerData = { username, email, password };
 
-    try {
-      await registerUser(registerData);
+    const registerRequest = await registerUser(registerData);
+
+    if (registerRequest) {
       alert("Registro realizado com sucesso!");
       router.push("/login");
-    } catch (err: any) {
-      alert("Erro ao registrar usuário: " + err.message);
+    } else {
+      alert("Erro ao registrar usuário");
     }
   };
 
