@@ -3,7 +3,7 @@ const db = require("./db");
 const PetPost = {
   create: (data, callback) => {
     const sql =
-      "INSERT INTO pet_posts (pet_id, content, photo) VALUES (?, ?, ?)";
+      "INSERT INTO pet_posts (pet_id, content, photo, user_id) VALUES (?, ?, ?, ?)";
     db.query(sql, data, callback);
   },
   findAll: (callback) => {

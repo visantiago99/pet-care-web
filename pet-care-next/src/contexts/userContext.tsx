@@ -6,6 +6,7 @@ import {
   UserRegisterData,
   UserResponse,
 } from "@/types/userContextTypes";
+import { useRouter } from "next/navigation";
 import React, {
   createContext,
   useContext,
@@ -28,6 +29,7 @@ interface UserProviderProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
+  const router = useRouter();
   const [user, setUser] = useState<StoredUserData | null>(null);
 
   useEffect(() => {
@@ -110,6 +112,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     localStorage.removeItem("user");
     setUser(null);
+    router.push("/login");
   };
 
   useEffect(() => {

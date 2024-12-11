@@ -98,14 +98,16 @@ const PetDetails = ({ pet }: PetDetailsProps) => {
                   <CardTitle>
                     Atualização: {formatIsoDate(post.post_date)}
                   </CardTitle>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDelete(post.post_id.toString())}
-                    className="absolute top-2 right-2"
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
+                  {shouldShowPostBtn && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDelete(post.post_id.toString())}
+                      className="absolute top-2 right-2"
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  )}
                 </CardHeader>
                 <CardContent>
                   <div className="my-4">

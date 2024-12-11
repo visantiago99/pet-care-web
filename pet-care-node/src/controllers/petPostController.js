@@ -1,8 +1,8 @@
 const PetPost = require("../models/petPostModel");
 
 exports.createPost = (req, res) => {
-  const { pet_id, content, photo } = req.body;
-  const data = [pet_id, content, photo];
+  const { pet_id, content, photo, user_id } = req.body;
+  const data = [pet_id, content, photo, user_id];
 
   PetPost.create(data, (err, result) => {
     if (err) return res.status(500).send(err);
