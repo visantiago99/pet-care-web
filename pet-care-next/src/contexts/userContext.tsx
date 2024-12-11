@@ -1,4 +1,11 @@
 "use client";
+
+import {
+  StoredUserData,
+  UserLoginData,
+  UserRegisterData,
+  UserResponse,
+} from "@/types/userContextTypes";
 import React, {
   createContext,
   useContext,
@@ -7,34 +14,8 @@ import React, {
   ReactNode,
 } from "react";
 
-interface UserLoginData {
-  email: string;
-  password: string;
-}
-
-interface UserRegisterData {
-  username: string;
-  email: string;
-  password: string;
-}
-
-interface UserResponse {
-  username: string;
-  email: string;
-  token: string;
-  userId: string;
-}
-
-export interface StoredUserData {
-  username: string;
-  email: string;
-  userId: string;
-}
-
 interface UserContextProps {
   user: StoredUserData | null;
-  loading: boolean;
-  error: string | null;
   registerUser: (userData: UserRegisterData) => Promise<UserResponse>;
   loginUser: (loginData: UserLoginData) => Promise<UserResponse>;
   logoutUser: () => void;
@@ -59,9 +40,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     return null;
   });
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
   const saveUser = (data: UserResponse) => {
     const jwtPayload = JSON.parse(atob(data.token.split(".")[1])) as {
       exp: number;
@@ -81,65 +59,54 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   };
 
   const registerUser = async (userData: UserRegisterData) => {
-    setLoading(true);
-    setError(null);
+    const res = await fetch("http://localhost:3001/users/register", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
 
-    try {
-      const res = await fetch("http://localhost:3001/users/register", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json(); // Processa o corpo da resposta para obter mais informações
-        console.error("Erro ao registrar usuário:", errorData);
-        throw new Error(errorData.message || "Erro desconhecido ao registrar.");
-      }
-
-      const data: UserResponse = await res.json();
-      return data;
-    } catch (err: any) {
-      setError(err.message);
-      throw new Error(err.message);
-    } finally {
-      setLoading(false);
+    if (!res.ok) {
+      const errorData = await res.json();
+      console.error("Erro ao registrar usuário:", errorData);
+      throw new Error(errorData.message || "Erro desconhecido ao registrar.");
     }
+
+    const data: UserResponse = await res.json();
+    return data;
   };
 
   const loginUser = async (loginData: UserLoginData) => {
-    setLoading(true);
-    setError(null);
+    const res = await fetch("http://localhost:3001/users/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    });
 
-    try {
-      const res = await fetch("http://localhost:3001/users/login", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
-
-      if (!res.ok) {
-        throw new Error(`Failed to login: ${res.statusText}`);
-      }
-
-      const data: UserResponse = await res.json();
-      saveUser(data);
-      return data;
-    } catch (err: any) {
-      setError(err.message);
-      throw new Error(err.message);
-    } finally {
-      setLoading(false);
+    if (!res.ok) {
+      throw new Error(`Failed to login: ${res.statusText}`);
     }
+
+    const data: UserResponse = await res.json();
+    saveUser(data);
+    return data;
   };
 
-  const logoutUser = () => {
+  const logoutUser = async () => {
+    const res = await fetch("http://localhost:3001/users/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      throw new Error("Erro ao realizar logout no servidor.");
+    }
+
     localStorage.removeItem("user");
     setUser(null);
   };
@@ -162,8 +129,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     <UserContext.Provider
       value={{
         user,
-        loading,
-        error,
         registerUser,
         loginUser,
         logoutUser,
