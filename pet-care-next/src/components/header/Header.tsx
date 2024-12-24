@@ -13,7 +13,6 @@ import {
 export default function Header() {
   const { user, logoutUser } = useUserContext();
   const pathname = usePathname();
-  console.log(pathname);
 
   return (
     <header className="bg-white shadow-md py-4 px-8 sticky top-0 z-50 rounded-b-xl">
