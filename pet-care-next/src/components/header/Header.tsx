@@ -9,11 +9,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
 export default function Header() {
   const { user, logoutUser } = useUserContext();
   const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   return (
     <header className="bg-white shadow-md py-4 px-8 sticky top-0 z-50 rounded-b-xl">
@@ -30,30 +36,30 @@ export default function Header() {
         </div>
 
         <nav className="hidden sm:flex space-x-6 font-poppins">
-          <a
+          <Link
             href="/pets"
             className={`link ${
               pathname === "/pets" ? "link-active" : "link-inactive"
             }`}
           >
             Pets
-          </a>
-          <a
+          </Link>
+          <Link
             href="/about"
             className={`link ${
               pathname === "/about" ? "link-active" : "link-inactive"
             }`}
           >
             Sobre
-          </a>
-          <a
+          </Link>
+          <Link
             href="/contact"
             className={`link ${
               pathname === "/contact" ? "link-active" : "link-inactive"
             }`}
           >
             Contato
-          </a>
+          </Link>
         </nav>
 
         <div className="hidden sm:flex items-center space-x-4">
@@ -88,9 +94,98 @@ export default function Header() {
         </div>
 
         <div className="sm:hidden">
-          <Menu />
+          <Menu className="cursor-pointer" onClick={toggleSidebar} />
         </div>
       </div>
+
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black bg-opacity-50"
+          onClick={toggleSidebar}
+        >
+          <div
+            className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg flex flex-col p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="self-end mb-6 text-gray-700"
+              onClick={toggleSidebar}
+            >
+              <X size={24} />
+            </button>
+
+            <nav className="flex flex-col space-y-4">
+              <Link
+                href="/pets"
+                className={`link ${
+                  pathname === "/pets" ? "link-active" : "link-inactive"
+                }`}
+                onClick={toggleSidebar}
+              >
+                Pets
+              </Link>
+              <Link
+                href="/about"
+                className={`link ${
+                  pathname === "/about" ? "link-active" : "link-inactive"
+                }`}
+                onClick={toggleSidebar}
+              >
+                Sobre
+              </Link>
+              <Link
+                href="/contact"
+                className={`link ${
+                  pathname === "/contact" ? "link-active" : "link-inactive"
+                }`}
+                onClick={toggleSidebar}
+              >
+                Contato
+              </Link>
+
+              <div className="mt-6">
+                {!user ? (
+                  <div className="flex flex-col space-y-2">
+                    <Link
+                      onClick={toggleSidebar}
+                      className="link link-inactive"
+                      href={"/login"}
+                    >
+                      Entrar
+                    </Link>
+                    <Link
+                      onClick={toggleSidebar}
+                      className="link link-inactive"
+                      href={"/register"}
+                    >
+                      Cadastrar
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="flex flex-col space-y-2">
+                    <Link
+                      className="link link-inactive"
+                      href="/account"
+                      onClick={toggleSidebar}
+                    >
+                      Minha Conta
+                    </Link>
+                    <button
+                      className="link mt-2 text-left"
+                      onClick={() => {
+                        logoutUser();
+                        toggleSidebar();
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            </nav>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
