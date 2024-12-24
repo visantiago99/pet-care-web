@@ -148,7 +148,7 @@ export default function Header() {
                   <div className="flex flex-col space-y-2">
                     <Link
                       onClick={toggleSidebar}
-                      className="link link-inactive"
+                      className="link link-inactive mb-2"
                       href={"/login"}
                     >
                       Entrar
@@ -164,7 +164,7 @@ export default function Header() {
                 ) : (
                   <div className="flex flex-col space-y-2">
                     <Link
-                      className="link link-inactive"
+                      className="link link-inactive mb-2"
                       href="/account"
                       onClick={toggleSidebar}
                     >
