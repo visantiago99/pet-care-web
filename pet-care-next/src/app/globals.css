@@ -74,6 +74,8 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -85,4 +87,16 @@ body {
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
+}
+
+.link {
+  @apply hover:text-orange-500 text-xl;
+}
+
+.link-active {
+  @apply text-orange-500 underline decoration-orange-500 underline-offset-8;
+}
+
+.link-inactive {
+  @apply text-gray-900;
 }
