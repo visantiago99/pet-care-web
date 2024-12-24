@@ -9,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Menu } from "lucide-react";
 
 export default function Header() {
   const { user, logoutUser } = useUserContext();
@@ -28,7 +29,7 @@ export default function Header() {
           </a>
         </div>
 
-        <nav className="space-x-6 font-poppins">
+        <nav className="hidden sm:flex space-x-6 font-poppins">
           <a
             href="/pets"
             className={`link ${
@@ -55,7 +56,7 @@ export default function Header() {
           </a>
         </nav>
 
-        <div className="flex items-center space-x-4">
+        <div className="hidden sm:flex items-center space-x-4">
           <div className="flex gap-2">
             {!user ? (
               <>
@@ -70,17 +71,24 @@ export default function Header() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <div className="text-lg font-medium text-gray-700 cursor-pointer">
-                    {/* Conteúdo do Dropdown */}
+                    {user.username}
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem onSelect={logoutUser}>
+                  <DropdownMenuItem asChild>
+                    <Link href="/account">Minha Conta</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={logoutUser}>
                     Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
           </div>
+        </div>
+
+        <div className="sm:hidden">
+          <Menu />
         </div>
       </div>
     </header>
